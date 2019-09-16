@@ -1,0 +1,4 @@
+*.nes
+*.fns
+.DS_STORE
+nesasm
