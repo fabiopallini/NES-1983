@@ -234,5 +234,8 @@ animation_stand:
 
 ![](https://raw.githubusercontent.com/fabiopallini/NES-1983/master/assets/result.gif)
 
-compiliamo con nesasm3:
->NESASM3 main.s
+### compilare il gioco
+
+per compilare il gioco è sufficiente scaricare cc65 dal suo sito ufficiale, inserite la cartella  
+di cc65 nel PATH di sistema, e adesso possiamo compilare lanciando il comando 
+>./build
