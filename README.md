@@ -239,3 +239,6 @@ animation_stand:
 per compilare il gioco è sufficiente scaricare cc65 dal suo sito ufficiale, inserite la cartella  
 di cc65 nel PATH di sistema, e adesso possiamo compilare lanciando il comando 
 >./build
+
+il gioco suonerà delle note musicali, e poi apparità la grafica a schermo con Mario, 
+attualmente è supportato l'input per muovere il personaggioa sinistra e a destra.
