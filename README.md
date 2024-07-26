@@ -240,5 +240,5 @@ per compilare il gioco è sufficiente scaricare cc65 dal suo sito ufficiale, ins
 di cc65 nel PATH di sistema, e adesso possiamo compilare lanciando il comando 
 >./build
 
-il gioco suonerà delle note musicali, e poi apparità la grafica a schermo con Mario, 
-attualmente è supportato l'input per muovere il personaggioa sinistra e a destra.
+Il gioco riprodurrà delle note musicali e successivamente verrà mostrata la grafica a schermo con Mario.  
+Attualmente è supportato l'input per muovere il personaggio a sinistra e a destra.
