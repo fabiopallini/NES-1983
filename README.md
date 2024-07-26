@@ -147,10 +147,10 @@ come possiamo notare, la sprite di Mario non è composta da un unica sprite, ma 
 ```
 sprites:
      ;vert tile attr horiz
-  .db $80, $32, $00, $80   ;sprite 0
-  .db $80, $33, $00, $88   ;sprite 1
-  .db $88, $4F, $00, $80   ;sprite 2
-  .db $88, $4F, %01000000, $88   ;sprite 3
+  .byte $80, $32, $00, $80   ;sprite 0
+  .byte $80, $33, $00, $88   ;sprite 1
+  .byte $88, $4F, $00, $80   ;sprite 2
+  .byte $88, $4F, %01000000, $88   ;sprite 3
 ```
 
 ![](https://raw.githubusercontent.com/fabiopallini/NES-1983/master/assets/mario-metasprite.png)
