@@ -240,5 +240,5 @@ per compilare il gioco è sufficiente scaricare cc65 dal suo sito ufficiale, ins
 di cc65 nel PATH di sistema, e adesso possiamo compilare lanciando il comando 
 >./build
 
-Il gioco riprodurrà delle note musicali.
+Il gioco riprodurrà delle note musicali.  
 Attualmente è supportato l'input per muovere il personaggio a sinistra e a destra.
