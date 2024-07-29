@@ -21,6 +21,8 @@ _animationCount: .res 1
 _animationTimer: .res 1
 _input: .res 1
 
+audio_index: .res 1
+
 .segment "STARTUP"
   
 ;; RESET  
@@ -62,10 +64,6 @@ vblankwait2:      ; Second wait for vblank, PPU is ready after this
   BPL vblankwait2
 
 ; *** LOAD ***
-
-play_audio:
-  JSR play_tri_scale
-  JSR play_pulse_scale
 
 loadPalettes:
   LDA $2002             ; read PPU status to reset the high/low latch
@@ -154,6 +152,8 @@ loadBackgroundAttributes:
 ; *** LOOP ***
 
 loop:
+  JSR play_tri_scale
+  JSR play_pulse_scale
   jmp loop 
   
 NMI:
@@ -241,22 +241,27 @@ gamepad_LEFT:
   LDA #%01000000
   STA $020A
   STA $020E
+
   ; legs animation
+
   INC _animationTimer
   LDA _animationTimer
   CMP #5
   BNE gamepad_LEFT_done
   LDA #00
   STA _animationTimer  
+
   LDX _animationCount
-  LDA character_legRight, x   
+  LDA character_legRight, x 
   STA $0209
   LDA character_legLeft, x
   STA $020D  
+
   INC _animationCount
   LDA _animationCount
   CMP #3
   BNE gamepad_LEFT_done
+
   LDA #$00
   STA _animationCount  
 gamepad_LEFT_done:
@@ -270,19 +275,19 @@ gamepad_RIGHT:
   ; move
   LDA $0203
   CLC       
-  ADC #$01
+  ADC #$02
   STA $0203 
   LDA $0207
   CLC       
-  ADC #$01
+  ADC #$02
   STA $0207
   LDA $020B
   CLC       
-  ADC #$01
+  ADC #$02
   STA $020B  
   LDA $020F
   CLC       
-  ADC #$01
+  ADC #$02
   STA $020F
   ; turn head right
   LDA #$00
@@ -338,16 +343,26 @@ animationDone:
   LDA #$00        ;;tell the ppu there is no background scrolling
   STA $2005
   STA $2005
-  
+
   RTI             ; return from interrupt
 
 play_pulse_scale:
-	ldx #20
-:       jsr play_pulse_note
-	inx
-	cpx #32
-	bne :-
-	rts
+    LDA #20          ; Carica il valore iniziale 20 nel registro A
+    STA audio_index       ; Memorizza il valore in una variabile temporanea a $FF00
+
+:   TAX
+    JSR play_pulse_note ; Chiama la sotto routine play_pulse_note
+
+    LDA audio_index ; Carica il valore del contatore dalla variabile temporanea
+    CLC               ; Cancella il flag di carry
+    ADC #01          ; Incrementa il valore del contatore di 1
+    STA audio_index         ; Memorizza il nuovo valore nella variabile temporanea
+
+    LDA audio_index         ; Carica il valore aggiornato del contatore
+    CMP #32          ; Confronta con il valore 32
+    BNE :-         ; Se il valore non è 32, salta all'inizio del ciclo
+
+    RTS               ; Termina la routine quando il valore raggiunge 32
 
 play_pulse_note:
 	lda periodTableHi,x
@@ -368,12 +383,22 @@ play_pulse_note:
 	rts
 
 play_tri_scale:
-	ldx #20
-:       jsr play_tri_note
-	inx
-	cpx #32
-	bne :-
-	rts
+    LDA #20          ; Carica il valore iniziale 20 nel registro A
+    STA audio_index       ; Memorizza il valore in una variabile temporanea a $FF00
+
+:   TAX
+    JSR play_tri_note ; Chiama la sotto routine play_tri_note
+
+    LDA audio_index ; Carica il valore del contatore dalla variabile temporanea
+    CLC               ; Cancella il flag di carry
+    ADC #01          ; Incrementa il valore del contatore di 1
+    STA audio_index         ; Memorizza il nuovo valore nella variabile temporanea
+
+    LDA audio_index         ; Carica il valore aggiornato del contatore
+    CMP #32          ; Confronta con il valore 32
+    BNE :-         ; Se il valore non è 32, salta all'inizio del ciclo
+
+    RTS               ; Termina la routine quando il valore raggiunge 32
 
 play_tri_note:
 	; Halve period, since triangle is octave lower
