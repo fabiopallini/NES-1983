@@ -347,22 +347,22 @@ animationDone:
   RTI             ; return from interrupt
 
 play_pulse_scale:
-    LDA #20          ; Carica il valore iniziale 20 nel registro A
-    STA audio_index       ; Memorizza il valore in una variabile temporanea a $FF00
+    LDA #20
+    STA audio_index
 
 :   TAX
-    JSR play_pulse_note ; Chiama la sotto routine play_pulse_note
+    JSR play_pulse_note
 
-    LDA audio_index ; Carica il valore del contatore dalla variabile temporanea
-    CLC               ; Cancella il flag di carry
-    ADC #01          ; Incrementa il valore del contatore di 1
-    STA audio_index         ; Memorizza il nuovo valore nella variabile temporanea
+    LDA audio_index
+    CLC
+    ADC #01
+    STA audio_index
 
-    LDA audio_index         ; Carica il valore aggiornato del contatore
-    CMP #32          ; Confronta con il valore 32
-    BNE :-         ; Se il valore non è 32, salta all'inizio del ciclo
+    LDA audio_index
+    CMP #32
+    BNE :-
 
-    RTS               ; Termina la routine quando il valore raggiunge 32
+    RTS
 
 play_pulse_note:
 	lda periodTableHi,x
@@ -383,22 +383,22 @@ play_pulse_note:
 	rts
 
 play_tri_scale:
-    LDA #20          ; Carica il valore iniziale 20 nel registro A
-    STA audio_index       ; Memorizza il valore in una variabile temporanea a $FF00
+    LDA #20 
+    STA audio_index 
 
 :   TAX
-    JSR play_tri_note ; Chiama la sotto routine play_tri_note
+    JSR play_tri_note
 
-    LDA audio_index ; Carica il valore del contatore dalla variabile temporanea
-    CLC               ; Cancella il flag di carry
-    ADC #01          ; Incrementa il valore del contatore di 1
-    STA audio_index         ; Memorizza il nuovo valore nella variabile temporanea
+    LDA audio_index
+    CLC
+    ADC #01
+    STA audio_index
 
-    LDA audio_index         ; Carica il valore aggiornato del contatore
-    CMP #32          ; Confronta con il valore 32
-    BNE :-         ; Se il valore non è 32, salta all'inizio del ciclo
+    LDA audio_index
+    CMP #32
+    BNE :-
 
-    RTS               ; Termina la routine quando il valore raggiunge 32
+    RTS 
 
 play_tri_note:
 	; Halve period, since triangle is octave lower
