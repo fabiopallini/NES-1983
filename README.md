@@ -54,7 +54,7 @@ Purtroppo la pistola non funziona più sugli schermi LCD, perché le tempistiche
 
 Ho voluto fare un piccolo progetto dimostrativo in Assembly, ovvero uno sfondo, e un personaggio (Mario) che si muove per la schermata, con tanto di animazione.
 
-Ci serve prima di tutto un assembler, [NESASM3](http://www.nespowerpak.com/nesasm/), poi per testare quello che facciamo possiamo usare un NES reale, tramite [PowerPak](http://www.retrousb.com/product_info.php?products_id=34), oppure EverDriveN8, ma per risparmiare possiamo anche usare un emulatore del NES, tipo [FCEUX](http://www.fceux.com/web/home.html).
+Ci serve prima di tutto un assembler, [ca65](https://www.cc65.org/) (fa parte del toolset di cc65), poi per testare quello che facciamo possiamo usare un NES reale, tramite [PowerPak](http://www.retrousb.com/product_info.php?products_id=34), oppure EverDriveN8, ma per risparmiare possiamo anche usare un emulatore del NES, [FCEUX](http://www.fceux.com/web/home.html) ad esempio.
 
 **6502 Assembly**
 
@@ -65,13 +65,6 @@ Ci serve prima di tutto un assembler, [NESASM3](http://www.nespowerpak.com/nesas
 - Operands
 - Comments
 - Registers
-```
-
-**Directives**
-
-Le direttive sono comandi che vengono dati all’assemblatore per specificare a quale indirizzo di memoria effettuare le operazioni, e vengono specificate con ” . ”
-```
-.org $8000
 ```
 
 **Labels e Opcodes**
@@ -90,7 +83,6 @@ JMP è un opcode, e in questo caso dice al processore di fare un jump al label M
 Gli operandi sono le informazioni per gli opcodes, in questo caso viene inserito il valore 255 (FF in esadecimale) nell’accumulatore (LDA).
 
 ```
-.org $8000
 MyFunction:
     LDA #$FF
     JMP MyFunction
@@ -102,7 +94,6 @@ I commenti vengono completamente ignorati dall’assemblatore, si definiscono co
 
 ```
 ;code example
-.org $8000
 MyFunction:
     LDA #$FF ;load FF (255)
     JMP MyFunction
