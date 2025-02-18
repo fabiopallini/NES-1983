@@ -25,8 +25,6 @@ _input: .res 1
 audio_index: .res 1
 
 .segment "STARTUP"
-  
-;; RESET  
 
 RESET:
 	SEI          ; disable IRQs
@@ -41,6 +39,8 @@ RESET:
 	STX $4010    ; disable DMC IRQs
 
 	JSR init_apu
+
+.segment "CODE"
 
 vblankwait1:       ; First wait for vblank to make sure PPU is ready
 	BIT $2002
@@ -147,7 +147,6 @@ loadBackgroundAttributes:
 	BNE loadBackgroundAttributes  
 
 ; *** ENABLE NMI ***
-
 	LDA #%10010000   ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
 	STA $2000
 	LDA #%00011110   ; enable sprites, enable background, no clipping on left side
@@ -155,11 +154,14 @@ loadBackgroundAttributes:
 
 ; *** LOOP ***
 
-loop:
+main_loop:
 	JSR play_tri_scale
 	JSR play_pulse_scale
-	jmp loop 
+	jmp main_loop 
   
+; occurs during every vblank (60 times per second on NTSC, 50 on PAL)
+; stops the main_loop, runs all the code below NMI (controller input, character animations etc.)
+; then RTI to main_loop to restore the loop
 NMI:
 	LDA #$00
 	STA $2003 ; set the low byte (00) of the RAM address
@@ -167,6 +169,10 @@ NMI:
 	STA $4014 ; set the high byte (02) of the RAM address, start the transfer
 
 ; *** INPUT ***
+
+; Controller reading and input handling follows.
+; This code processes player input during each vblank,
+; allowing responsive controls even while the main loop is busy with audio
 
 initController:
 	LDA #$01
